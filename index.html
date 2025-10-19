@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Murali - Creative Web Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg-primary: #0a0a1a;
+        --bg-secondary: #1a1a2e;
+        --text-primary: #e0e0e0;
+        --text-secondary: #a0a0c0;
+        --accent-primary: #8a2be2;
+        --accent-secondary: #00ffff;
+        --border-color: rgba(138, 43, 226, 0.3);
+        --shadow-color: rgba(138, 43, 226, 0.2);
+        --gradient-start: #8a2be2;
+        --gradient-mid: #4b0082;
+        --gradient-end: #00ffff;
+      }
+
+      [data-theme="light"] {
+        --bg-primary: #f0f2f5;
+        --bg-secondary: #ffffff;
+        --text-primary: #1a1a2e;
+        --text-secondary: #5a5a7a;
+        --accent-primary: #6a11cb;
+        --accent-secondary: #2575fc;
+        --border-color: rgba(106, 17, 203, 0.2);
+        --shadow-color: rgba(106, 17, 203, 0.1);
+        --gradient-start: #6a11cb;
+        --gradient-mid: #2575fc;
+        --gradient-end: #8a2be2;
+      }
+
+      [data-theme="ocean"] {
+        --bg-primary: #0c1445;
+        --bg-secondary: #1f2a69;
+        --text-primary: #e0f7fa;
+        --text-secondary: #b3e5fc;
+        --accent-primary: #00bcd4;
+        --accent-secondary: #80deea;
+        --border-color: rgba(0, 188, 212, 0.3);
+        --shadow-color: rgba(0, 188, 212, 0.2);
+        --gradient-start: #00bcd4;
+        --gradient-mid: #26c6da;
+        --gradient-end: #80deea;
+      }
+
+      [data-theme="forest"] {
+        --bg-primary: #1a2e1a;
+        --bg-secondary: #2e4d2e;
+        --text-primary: #e8f5e9;
+        --text-secondary: #c8e6c9;
+        --accent-primary: #4caf50;
+        --accent-secondary: #a5d6a7;
+        --border-color: rgba(76, 175, 80, 0.3);
+        --shadow-color: rgba(76, 175, 80, 0.2);
+        --gradient-start: #4caf50;
+        --gradient-mid: #66bb6a;
+        --gradient-end: #a5d6a7;
+      }
+
+      [data-theme="sunset"] {
+        --bg-primary: #2c1e3e;
+        --bg-secondary: #4a2f58;
+        --text-primary: #ffecb3;
+        --text-secondary: #ffe082;
+        --accent-primary: #ff7043;
+        --accent-secondary: #ffca28;
+        --border-color: rgba(255, 112, 67, 0.3);
+        --shadow-color: rgba(255, 112, 67, 0.2);
+        --gradient-start: #ff7043;
+        --gradient-mid: #ffb74d;
+        --gradient-end: #ffca28;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        overflow-x: hidden;
+        transition: background-color 0.5s ease, color 0.5s ease;
+      }
+
+      .gradient-text {
+        background: linear-gradient(
+          90deg,
+          var(--gradient-start),
+          var(--gradient-mid),
+          var(--gradient-end)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradient-flow 5s ease infinite;
+        background-size: 200% 200%;
+      }
+
+      @keyframes gradient-flow {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .custom-cursor {
+        position: fixed;
+        left: 0;
+        top: 0;
+        pointer-events: none;
+        z-index: 9999;
+        transition: transform 0.1s ease-out;
+      }
+      .cursor-dot {
+        width: 8px;
+        height: 8px;
+        background-color: var(--accent-secondary);
+        border-radius: 50%;
+      }
+      .cursor-outline {
+        width: 40px;
+        height: 40px;
+        border: 2px solid var(--accent-primary);
+        border-radius: 50%;
+        transform: translate(-16px, -16px);
+      }
+
+      .navbar-glass {
+        background: color-mix(in srgb, var(--bg-primary) 50%, transparent);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(50px);
+        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .project-card {
+        transform-style: preserve-3d;
+        transition: transform 0.5s;
+      }
+      .project-card:hover {
+        transform: perspective(1000px) rotateY(5deg) rotateX(10deg)
+          scale3d(1.05, 1.05, 1.05);
+      }
+
+      .typing-cursor::after {
+        content: "|";
+        display: inline-block;
+        animation: blink 0.7s infinite;
+        color: var(--accent-secondary);
+      }
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
+
+      .flip-card {
+        perspective: 1000px;
+      }
+      .flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.8s;
+        transform-style: preserve-3d;
+      }
+      .flip-card:hover .flip-card-inner {
+        transform: rotateY(180deg);
+      }
+      .flip-card-front,
+      .flip-card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        background-color: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+      }
+      .flip-card-back {
+        transform: rotateY(180deg);
+      }
+
+      #theme-fab-container {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        z-index: 100;
+      }
+      #theme-fab {
+        width: 3.5rem;
+        height: 3.5rem;
+        border-radius: 50%;
+        background-color: var(--accent-primary);
+        color: var(--text-primary);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        box-shadow: 0 4px 20px var(--shadow-color);
+        transition: transform 0.3s ease, background-color 0.3s ease;
+        position: relative;
+        z-index: 2;
+      }
+      #theme-fab:hover {
+        transform: scale(1.1);
+      }
+      #theme-fab-icon {
+        transition: transform 0.3s ease;
+      }
+      #theme-fab-container.open #theme-fab-icon {
+        transform: rotate(135deg);
+      }
+      .theme-options {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        z-index: 1;
+      }
+      .theme-button {
+        position: absolute;
+        bottom: 0.5rem;
+        right: 0.5rem;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 2px solid var(--bg-secondary);
+        transition: transform 0.2s, box-shadow 0.2s;
+        box-shadow: 0 2px 10px var(--shadow-color);
+      }
+      .theme-button.active {
+        box-shadow: 0 0 0 3px var(--accent-secondary);
+      }
+
+      #theme-fab-container.open .theme-options:nth-child(1) {
+        transform: translate(-5rem, 0rem);
+      }
+      #theme-fab-container.open .theme-options:nth-child(2) {
+        transform: translate(-4.6rem, -1.9rem);
+      }
+      #theme-fab-container.open .theme-options:nth-child(3) {
+        transform: translate(-3.5rem, -3.5rem);
+      }
+      #theme-fab-container.open .theme-options:nth-child(4) {
+        transform: translate(-1.9rem, -4.6rem);
+      }
+      #theme-fab-container.open .theme-options:nth-child(5) {
+        transform: translate(0rem, -5rem);
+      }
+
+      .form-input {
+        background-color: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        color: var(--text-primary);
+        transition: border-color 0.3s, box-shadow 0.3s;
+      }
+      .form-input:focus {
+        outline: none;
+        border-color: var(--accent-secondary);
+        box-shadow: 0 0 10px var(--shadow-color);
+      }
+    </style>
+  </head>
+  <body class="antialiased" data-theme="default">
+    <div class="custom-cursor hidden md:block">
+      <div class="cursor-dot"></div>
+      <div class="cursor-outline"></div>
+    </div>
+
+    <canvas
+      id="background-canvas"
+      class="fixed top-0 left-0 w-full h-full z-[-1]"
+    ></canvas>
+
+    <div id="theme-fab-container">
+      <div class="theme-options">
+        <div
+          class="theme-button"
+          data-theme="default"
+          style="background: linear-gradient(45deg, #0a0a1a, #8a2be2)"
+        ></div>
+      </div>
+      <div class="theme-options">
+        <div
+          class="theme-button"
+          data-theme="light"
+          style="background: linear-gradient(45deg, #f0f2f5, #6a11cb)"
+        ></div>
+      </div>
+      <div class="theme-options">
+        <div
+          class="theme-button"
+          data-theme="ocean"
+          style="background: linear-gradient(45deg, #0c1445, #00bcd4)"
+        ></div>
+      </div>
+      <div class="theme-options">
+        <div
+          class="theme-button"
+          data-theme="forest"
+          style="background: linear-gradient(45deg, #1a2e1a, #4caf50)"
+        ></div>
+      </div>
+      <div class="theme-options">
+        <div
+          class="theme-button"
+          data-theme="sunset"
+          style="background: linear-gradient(45deg, #2c1e3e, #ff7043)"
+        ></div>
+      </div>
+      <div id="theme-fab">
+        <svg
+          id="theme-fab-icon"
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 4v16m8-8H4"
+          ></path>
+        </svg>
+      </div>
+    </div>
+
+    <header
+      id="navbar"
+      class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+    >
+      <div
+        class="container mx-auto px-6 py-4 flex justify-between items-center"
+      >
+        <a href="#" class="text-2xl font-bold gradient-text">ACM</a>
+        <nav class="hidden md:flex space-x-8">
+          <a
+            href="#about"
+            class="text-[var(--text-secondary)] hover:text-[var(--accent-secondary)] transition duration-300"
+            >About</a
+          >
+          <a
+            href="#experience"
+            class="text-[var(--text-secondary)] hover:text-[var(--accent-secondary)] transition duration-300"
+            >Experience</a
+          >
+          <a
+            href="#skills"
+            class="text-[var(--text-secondary)] hover:text-[var(--accent-secondary)] transition duration-300"
+            >Skills</a
+          >
+          <a
+            href="#projects"
+            class="text-[var(--text-secondary)] hover:text-[var(--accent-secondary)] transition duration-300"
+            >Projects</a
+          >
+          <a
+            href="#contact"
+            class="text-[var(--text-secondary)] hover:text-[var(--accent-secondary)] transition duration-300"
+            >Contact</a
+          >
+        </nav>
+        <button
+          id="mobile-menu-button"
+          class="md:hidden text-[var(--text-primary)] focus:outline-none"
+        >
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16m-7 6h7"
+            ></path>
+          </svg>
+        </button>
+      </div>
+      <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+        <a
+          href="#about"
+          class="block py-2 text-[var(--text-secondary)] hover:text-[var(--accent-secondary)]"
+          >About</a
+        >
+        <a
+          href="#experience"
+          class="block py-2 text-[var(--text-secondary)] hover:text-[var(--accent-secondary)]"
+          >Experience</a
+        >
+        <a
+          href="#skills"
+          class="block py-2 text-[var(--text-secondary)] hover:text-[var(--accent-secondary)]"
+          >Skills</a
+        >
+        <a
+          href="#projects"
+          class="block py-2 text-[var(--text-secondary)] hover:text-[var(--accent-secondary)]"
+          >Projects</a
+        >
+        <a
+          href="#contact"
+          class="block py-2 text-[var(--text-secondary)] hover:text-[var(--accent-secondary)]"
+          >Contact</a
+        >
+      </div>
+    </header>
+
+    <main class="container mx-auto px-6">
+      <section
+        id="hero"
+        class="min-h-screen flex flex-col justify-center items-center text-center"
+      >
+        <h1 class="text-5xl md:text-7xl lg:text-8xl font-black mb-4 reveal">
+          <span class="gradient-text">Creative</span> Web Developer
+        </h1>
+        <p
+          id="typing-text"
+          class="text-xl md:text-2xl text-[var(--text-secondary)] mb-8 reveal typing-cursor"
+          style="transition-delay: 200ms"
+        ></p>
+        <a
+          href="#projects"
+          class="magnetic-button bg-[var(--accent-secondary)] text-[var(--bg-primary)] font-bold py-3 px-8 rounded-full hover:bg-[var(--accent-primary)] transition duration-300 transform hover:scale-105 reveal"
+          style="transition-delay: 400ms"
+        >
+          View My Work
+        </a>
+      </section>
+
+      <section id="about" class="py-20">
+        <h2 class="text-4xl font-bold text-center mb-12 reveal gradient-text">
+          About Me
+        </h2>
+        <div class="flex flex-col md:flex-row items-center gap-12">
+          <div class="md:w-1/3 reveal">
+            <img
+              src="https://placehold.co/400x400/8A2BE2/FFFFFF?text=ACM"
+              alt="Murali"
+              class="rounded-full shadow-lg w-64 h-64 md:w-full md:h-auto mx-auto"
+              style="box-shadow: 0 0 30px var(--shadow-color)"
+            />
+          </div>
+          <div class="md:w-2/3 reveal" style="transition-delay: 200ms">
+            <p class="text-lg text-[var(--text-secondary)] mb-4">
+              Hello! I'm Murali, a passionate Web Developer with a knack for
+              creating dynamic, user-friendly, and beautiful websites and
+              applications. My journey into web development started years ago,
+              and I've been hooked ever since.
+            </p>
+            <p class="text-lg text-[var(--text-secondary)]">
+              I specialize in front-end development with a focus on React and
+              modern JavaScript, but I'm also comfortable working on the
+              back-end with Node.js. I love turning complex problems into
+              simple, beautiful, and intuitive designs.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="experience" class="py-20">
+        <h2 class="text-4xl font-bold text-center mb-12 reveal gradient-text">
+          Work Experience
+        </h2>
+        <div class="relative max-w-4xl mx-auto">
+          <div
+            class="absolute w-1 h-full bg-[var(--border-color)] left-1/2 transform -translate-x-1/2 hidden md:block"
+          ></div>
+          <div
+            class="mb-8 flex justify-between items-center w-full right-timeline"
+          >
+            <div class="order-1 w-5/12 hidden md:block"></div>
+            <div
+              class="z-20 flex items-center order-1 bg-[var(--accent-secondary)] shadow-xl w-8 h-8 rounded-full"
+            >
+              <h1
+                class="mx-auto font-semibold text-lg text-[var(--bg-primary)]"
+              >
+                1
+              </h1>
+            </div>
+            <div
+              class="order-1 bg-[var(--bg-secondary)] rounded-lg shadow-xl w-full md:w-5/12 px-6 py-4 reveal"
+            >
+              <p class="text-sm text-[var(--accent-secondary)]">
+                Jun 2024 - Present
+              </p>
+              <h3 class="font-bold text-[var(--text-primary)] text-xl">
+                Software Engineer
+              </h3>
+              <p class="text-sm font-medium text-[var(--text-secondary)]">
+                Roboteon Inc.
+              </p>
+              <p class="text-sm text-[var(--text-secondary)] mt-2">
+                Engineering intuitive user interfaces in React for a complex
+                warehouse robotics software. Also involved in full-stack
+                development to improve internal system.
+              </p>
+            </div>
+          </div>
+          <div
+            class="mb-8 flex justify-between flex-row-reverse items-center w-full left-timeline"
+          >
+            <div class="order-1 w-5/12 hidden md:block"></div>
+            <div
+              class="z-20 flex items-center order-1 bg-[var(--accent-secondary)] shadow-xl w-8 h-8 rounded-full"
+            >
+              <h1
+                class="mx-auto text-[var(--bg-primary)] font-semibold text-lg"
+              >
+                2
+              </h1>
+            </div>
+            <div
+              class="order-1 bg-[var(--bg-secondary)] rounded-lg shadow-xl w-full md:w-5/12 px-6 py-4 reveal"
+            >
+              <p class="text-sm text-[var(--accent-secondary)]">
+                Sept 2023 - Dec 2023
+              </p>
+              <h3 class="font-bold text-[var(--text-primary)] text-xl">
+                Frontend Intern
+              </h3>
+              <p class="text-sm font-medium text-[var(--text-secondary)]">
+                Centre for Distance Education, Anna University
+              </p>
+              <p class="text-sm text-[var(--text-secondary)] mt-2">
+                Translated UI designs into a clean and responsive website using
+                HTML, CSS, and JavaScript. Ensured a seamless and intuitive
+                experience for all users across various devices.
+              </p>
+            </div>
+          </div>
+          <!-- <div
+            class="mb-8 flex justify-between items-center w-full right-timeline"
+          >
+            <div class="order-1 w-5/12 hidden md:block"></div>
+            <div
+              class="z-20 flex items-center order-1 bg-[var(--accent-secondary)] shadow-xl w-8 h-8 rounded-full"
+            >
+              <h1
+                class="mx-auto font-semibold text-lg text-[var(--bg-primary)]"
+              >
+                3
+              </h1>
+            </div>
+            <div
+              class="order-1 bg-[var(--bg-secondary)] rounded-lg shadow-xl w-full md:w-5/12 px-6 py-4 reveal"
+            >
+              <p class="text-sm text-[var(--accent-secondary)]">
+                Sept 2023 - Dec 2023
+              </p>
+              <h3 class="font-bold text-[var(--text-primary)] text-xl">
+                Frontend Intern
+              </h3>
+              <p class="text-sm font-medium text-[var(--text-secondary)]">
+                Centre for Distance Education, Anna University
+              </p>
+              <p class="text-sm text-[var(--text-secondary)] mt-2">
+                Translated UI designs into a clean and responsive website using
+                HTML, CSS, and JavaScript. Ensured a seamless and intuitive
+                experience for all users across various devices.
+              </p>
+            </div>
+          </div> -->
+        </div>
+      </section>
+
+      <section id="skills" class="py-20">
+        <h2 class="text-4xl font-bold text-center mb-12 reveal gradient-text">
+          My Tech Stack
+        </h2>
+        <div
+          class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8"
+        >
+          <div class="text-center reveal">
+            <div
+              class="bg-[var(--bg-secondary)] p-6 rounded-lg shadow-lg border border-[var(--border-color)] hover:border-[var(--accent-secondary)] transition-all duration-300 transform hover:-translate-y-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 640 640"
+                class="w-16 h-16 mx-auto mb-4 text-[var(--accent-secondary)]"
+              >
+                <path
+                  fill="currentColor"
+                  d="M482.2 241.2C476.8 239.4 471.4 237.7 466 236.1C466.9 232.4 467.7 228.7 468.5 225C480.8 165.4 472.7 117.5 445.4 101.7C419.1 86.6 376.2 102.3 332.8 140.1C328.5 143.8 324.3 147.7 320.3 151.6C317.6 149 314.8 146.4 312 143.9C266.5 103.5 220.9 86.5 193.6 102.4C167.4 117.6 159.6 162.7 170.6 219.1C171.7 224.7 172.9 230.2 174.3 235.8C167.9 237.6 161.6 239.6 155.7 241.7C102.3 260.2 64 289.4 64 319.6C64 350.8 104.8 382.1 160.3 401.1C164.8 402.6 169.3 404.1 173.9 405.4C172.4 411.4 171.1 417.3 169.9 423.4C159.4 478.9 167.6 522.9 193.8 538C220.8 553.6 266.2 537.6 310.4 498.9C313.9 495.8 317.4 492.6 320.9 489.2C325.3 493.5 329.9 497.6 334.5 501.6C377.3 538.4 419.6 553.3 445.7 538.2C472.7 522.6 481.5 475.3 470.1 417.7C469.2 413.3 468.2 408.8 467.1 404.2C470.3 403.3 473.4 402.3 476.5 401.3C534.2 382.2 576 351.3 576 319.6C576 289.3 536.6 259.9 482.2 241.2zM346.9 156.3C384.1 123.9 418.8 111.2 434.6 120.3C451.5 130 458 169.2 447.4 220.7C446.7 224.1 446 227.4 445.1 230.7C422.9 225.7 400.4 222.1 377.8 220.1C364.8 201.5 350.6 183.7 335.2 167C339.1 163.3 342.9 159.8 346.9 156.3zM231.2 371.5C236.3 380.2 241.5 388.9 247 397.4C231.4 395.7 215.9 393.2 200.6 389.9C205 375.5 210.5 360.6 216.9 345.4C221.5 354.2 226.2 362.9 231.2 371.5zM200.9 251.2C215.3 248 230.6 245.4 246.5 243.4C241.2 251.7 236 260.2 231.1 268.8C226.2 277.3 221.4 286 216.9 294.8C210.6 279.9 205.3 265.3 200.9 251.2zM228.3 320.1C234.9 306.3 242.1 292.8 249.7 279.5C257.3 266.2 265.5 253.3 274.1 240.6C289.1 239.5 304.4 238.9 320 238.9C335.6 238.9 351 239.5 365.9 240.6C374.4 253.2 382.5 266.1 390.2 279.3C397.9 292.5 405.1 306 411.9 319.7C405.2 333.5 398 347.1 390.3 360.5C382.7 373.8 374.6 386.7 366.1 399.5C351.2 400.6 335.7 401.1 320 401.1C304.3 401.1 289.1 400.6 274.4 399.7C265.7 387 257.5 374 249.8 360.7C242.1 347.4 235 333.9 228.3 320.1zM408.9 371.3C414 362.5 418.8 353.6 423.5 344.6C429.9 359.1 435.5 373.8 440.4 388.9C424.9 392.4 409.2 395.1 393.4 396.9C398.8 388.5 403.9 379.9 408.9 371.3zM423.3 294.8C418.6 286 413.8 277.2 408.8 268.6C403.9 260.1 398.8 251.7 393.5 243.4C409.6 245.4 425 248.1 439.4 251.4C434.8 266.2 429.4 280.6 423.3 294.8zM320.2 182.3C330.7 193.7 340.6 205.7 349.8 218.1C330 217.2 310.1 217.2 290.3 218.1C300.1 205.2 310.2 193.2 320.2 182.3zM204.2 121C221 111.2 258.3 125.2 297.6 160C300.1 162.2 302.6 164.6 305.2 167C289.7 183.7 275.4 201.5 262.3 220.1C239.7 222.1 217.3 225.6 195.1 230.5C193.8 225.4 192.7 220.2 191.6 215C182.2 166.6 188.4 130.1 204.2 121zM179.7 384.6C175.5 383.4 171.4 382.1 167.3 380.7C146 374 121.8 363.4 104.3 349.5C94.2 342.5 87.4 331.7 85.5 319.6C85.5 301.3 117.1 277.9 162.7 262C168.4 260 174.2 258.2 180 256.5C186.8 278.2 195 299.5 204.5 320.1C194.9 341 186.6 362.6 179.7 384.6zM296.3 482.6C279.8 497.7 260.7 509.7 239.9 517.9C228.8 523.2 216 523.7 204.6 519.2C188.7 510 182.1 474.7 191.1 427.2C192.2 421.6 193.4 416 194.8 410.5C217.2 415.3 239.8 418.6 262.7 420.3C275.9 439 290.4 456.9 305.9 473.7C302.7 476.8 299.5 479.8 296.3 482.6zM320.8 458.3C310.6 447.3 300.4 435.1 290.5 422C300.1 422.4 310 422.6 320 422.6C330.3 422.6 340.4 422.4 350.4 421.9C341.2 434.6 331.3 446.7 320.8 458.3zM451.5 488.3C450.6 500.5 444.6 511.9 435 519.6C419.1 528.8 385.2 516.8 348.6 485.4C344.4 481.8 340.2 477.9 335.9 473.9C351.2 457 365.3 439.1 378.1 420.3C401 418.4 423.8 414.9 446.3 409.8C447.3 413.9 448.2 418 449 422C453.9 443.6 454.7 466.1 451.5 488.3zM469.7 380.8C466.9 381.7 464.1 382.6 461.2 383.4C454.2 361.6 445.6 340.3 435.7 319.6C445.3 299.2 453.4 278.2 460.2 256.7C465.4 258.2 470.4 259.8 475.2 261.4C521.8 277.4 554.5 301.2 554.5 319.4C554.5 339 519.6 364.3 469.7 380.8zM320 365.8C345.3 365.8 365.8 345.3 365.8 320C365.8 294.7 345.3 274.2 320 274.2C294.7 274.2 274.2 294.7 274.2 320C274.2 345.3 294.7 365.8 320 365.8z"
+                />
+              </svg>
+              <h3 class="font-bold text-xl">React</h3>
+            </div>
+          </div>
+          <div class="text-center reveal" style="transition-delay: 100ms">
+            <div
+              class="bg-[var(--bg-secondary)] p-6 rounded-lg shadow-lg border border-[var(--border-color)] hover:border-[var(--accent-secondary)] transition-all duration-300 transform hover:-translate-y-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 640 640"
+                class="w-16 h-16 mx-auto mb-4 text-[var(--accent-secondary)]"
+              >
+                <path
+                  fill="currentColor"
+                  d="M544 160C544 124.7 515.3 96 480 96L160 96C124.7 96 96 124.7 96 160L96 480C96 515.3 124.7 544 160 544L480 544C515.3 544 544 515.3 544 480L544 160zM276.9 508.9C243.2 508.9 223.7 491.5 213.7 470.4L248 449.7C254.6 461.4 260.6 471.3 275.1 471.3C288.9 471.3 297.7 465.9 297.7 444.8L297.7 301.7L339.8 301.7L339.8 445.4C339.8 489 314.2 508.9 276.9 508.9zM362.7 465.9L397 446.1C406 460.8 417.8 471.7 438.5 471.7C455.9 471.7 467.1 463 467.1 450.9C467.1 436.5 455.7 431.4 436.4 422.9L425.9 418.4C395.5 405.5 375.4 389.2 375.4 354.9C375.4 323.3 399.5 299.3 437 299.3C463.8 299.3 483 308.6 496.8 333L464 354C456.8 341.1 449 336 436.9 336C424.6 336 416.8 343.8 416.8 354C416.8 366.6 424.6 371.7 442.7 379.6L453.2 384.1C489 399.4 509.1 415.1 509.1 450.3C509.1 488.1 479.3 508.9 439.4 508.9C400.3 508.9 375 490.3 362.7 465.9z"
+                />
+              </svg>
+              <h3 class="font-bold text-xl">JavaScript</h3>
+            </div>
+          </div>
+          <div class="text-center reveal" style="transition-delay: 200ms">
+            <div
+              class="bg-[var(--bg-secondary)] p-6 rounded-lg shadow-lg border border-[var(--border-color)] hover:border-[var(--accent-secondary)] transition-all duration-300 transform hover:-translate-y-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 448 512"
+                class="w-16 h-16 mx-auto mb-4 text-[var(--accent-secondary)]"
+              >
+                <path
+                  fill="currentColor"
+                  d="M224.5 508c-6.7 0-13.5-1.8-19.4-5.2l-61.7-36.5c-9.2-5.2-4.7-7-1.7-8 12.3-4.3 14.8-5.2 27.9-12.7 1.4-.8 3.2-.5 4.6 .4l47.4 28.1c1.7 1 4.1 1 5.7 0L412 367.5c1.7-1 2.8-3 2.8-5l0-213.2c0-2.1-1.1-4-2.9-5.1L227.3 37.7c-1.7-1-4-1-5.7 0L37.1 144.3c-1.8 1-2.9 3-2.9 5.1l0 213.1c0 2 1.1 4 2.9 4.9l50.6 29.2c27.5 13.7 44.3-2.4 44.3-18.7l0-210.4c0-3 2.4-5.3 5.4-5.3l23.4 0c2.9 0 5.4 2.3 5.4 5.3l0 210.5c0 36.6-20 57.6-54.7 57.6-10.7 0-19.1 0-42.5-11.6L20.6 396.1c-12-6.9-19.4-19.8-19.4-33.7l0-213.1c0-13.8 7.4-26.8 19.4-33.7L205.1 9c11.7-6.6 27.2-6.6 38.8 0L428.6 115.7c12 6.9 19.4 19.8 19.4 33.7l0 213.1c0 13.8-7.4 26.7-19.4 33.7L243.9 502.8c-5.9 3.4-12.6 5.2-19.4 5.2zM373.6 297.9c0-39.9-27-50.5-83.7-58-57.4-7.6-63.2-11.5-63.2-24.9 0-11.1 4.9-25.9 47.4-25.9 37.9 0 51.9 8.2 57.7 33.8 .5 2.4 2.7 4.2 5.2 4.2l24 0c1.5 0 2.9-.6 3.9-1.7s1.5-2.6 1.4-4.1c-3.7-44.1-33-64.6-92.2-64.6-52.7 0-84.1 22.2-84.1 59.5 0 40.4 31.3 51.6 81.8 56.6 60.5 5.9 65.2 14.8 65.2 26.7 0 20.6-16.6 29.4-55.5 29.4-48.9 0-59.6-12.3-63.2-36.6-.4-2.6-2.6-4.5-5.3-4.5l-23.9 0c-3 0-5.3 2.4-5.3 5.3 0 31.1 16.9 68.2 97.8 68.2 58.4-.1 92-23.2 92-63.4z"
+                />
+              </svg>
+              <h3 class="font-bold text-xl">Node.js</h3>
+            </div>
+          </div>
+          <div class="text-center reveal" style="transition-delay: 300ms">
+            <div
+              class="bg-[var(--bg-secondary)] p-6 rounded-lg shadow-lg border border-[var(--border-color)] hover:border-[var(--accent-secondary)] transition-all duration-300 transform hover:-translate-y-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 448 512"
+                class="w-16 h-16 mx-auto mb-4 text-[var(--accent-secondary)]"
+              >
+                <path
+                  fill="currentColor"
+                  d="M443.9 128l0 256-225.9 128-218-128 0-214.3 87.6 45.1 0 117 133.5 75.5 135.8-75.5 0-151-101.1-57.6 87.6-53.1 100.5 57.9zM308.6 49.1l-84.8-49.1-88.6 54.8 86 47.3 87.4-53z"
+                />
+              </svg>
+              <h3 class="font-bold text-xl">MUI</h3>
+            </div>
+          </div>
+          <div class="text-center reveal" style="transition-delay: 400ms">
+            <div
+              class="bg-[var(--bg-secondary)] p-6 rounded-lg shadow-lg border border-[var(--border-color)] hover:border-[var(--accent-secondary)] transition-all duration-300 transform hover:-translate-y-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 448 512"
+                class="w-16 h-16 mx-auto mb-4 text-[var(--accent-secondary)]"
+              >
+                <path
+                  fill="currentColor"
+                  d="M448 205.8c-14.8 9.8-31.8 17.7-49.5 24-47 16.8-108.7 26.2-174.5 26.2S96.4 246.5 49.5 229.8c-17.6-6.3-34.7-14.2-49.5-24L0 288c0 44.2 100.3 80 224 80s224-35.8 224-80l0-82.2zm0-77.8l0-48C448 35.8 347.7 0 224 0S0 35.8 0 80l0 48c0 44.2 100.3 80 224 80s224-35.8 224-80zM398.5 389.8C351.6 406.5 289.9 416 224 416S96.4 406.5 49.5 389.8c-17.6-6.3-34.7-14.2-49.5-24L0 432c0 44.2 100.3 80 224 80s224-35.8 224-80l0-66.2c-14.8 9.8-31.8 17.7-49.5 24z"
+                />
+              </svg>
+              <h3 class="font-bold text-xl">MongoDB</h3>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects" class="py-20">
+        <h2 class="text-4xl font-bold text-center mb-12 reveal gradient-text">
+          Featured Projects
+        </h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div
+            class="project-card bg-[var(--bg-secondary)] rounded-lg overflow-hidden shadow-lg border border-[var(--border-color)] reveal"
+          >
+            <a href="https://cde.annauniv.edu/home/index.html" target="_blank">
+              <img
+                src="./images/cde.png"
+                alt="Project One"
+                class="w-full h-48 object-cover"
+            /></a>
+            <div class="p-6">
+              <h3
+                class="text-2xl font-bold mb-2 text-[var(--accent-secondary)]"
+              >
+                Centre for Distance Education, Anna University
+              </h3>
+              <p class="text-[var(--text-secondary)] mb-4">
+                A full-featured site built for Students and Staffs to access
+                course information and admissions details.
+              </p>
+              <a
+                href="https://cde.annauniv.edu/home/index.html"
+                target="_blank"
+                class="text-[var(--accent-primary)] hover:underline font-semibold"
+                >Visit Site &rarr;</a
+              >
+            </div>
+          </div>
+          <div
+            class="project-card bg-[var(--bg-secondary)] rounded-lg overflow-hidden shadow-lg border border-[var(--border-color)] reveal"
+            style="transition-delay: 200ms"
+          >
+            <img
+              src="https://placehold.co/600x400/1a1a2e/8A2BE2?text=Dummy+Project"
+              alt="Project Two"
+              class="w-full h-48 object-cover"
+            />
+            <div class="p-6">
+              <h3
+                class="text-2xl font-bold mb-2 text-[var(--accent-secondary)]"
+              >
+                Real-Time Chat App
+              </h3>
+              <p class="text-[var(--text-secondary)] mb-4">
+                A responsive chat application using Socket.IO and Node.js,
+                allowing users to join rooms and communicate.
+              </p>
+              <a
+                href="#"
+                class="text-[var(--accent-primary)] hover:underline font-semibold"
+                >View Details &rarr;</a
+              >
+            </div>
+          </div>
+          <div
+            class="project-card bg-[var(--bg-secondary)] rounded-lg overflow-hidden shadow-lg border border-[var(--border-color)] reveal"
+            style="transition-delay: 400ms"
+          >
+            <img
+              src="https://placehold.co/600x400/0c1445/FFFFFF?text=Dummy+Project"
+              alt="Project Three"
+              class="w-full h-48 object-cover"
+            />
+            <div class="p-6">
+              <h3
+                class="text-2xl font-bold mb-2 text-[var(--accent-secondary)]"
+              >
+                Data Visualization Dashboard
+              </h3>
+              <p class="text-[var(--text-secondary)] mb-4">
+                An interactive dashboard built with D3.js and React to visualize
+                complex datasets with dynamic charts.
+              </p>
+              <a
+                href="#"
+                class="text-[var(--accent-primary)] hover:underline font-semibold"
+                >View Details &rarr;</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="testimonials" class="py-20">
+        <h2 class="text-4xl font-bold text-center mb-12 reveal gradient-text">
+          Inspirational Quotes
+        </h2>
+        <div class="relative max-w-3xl mx-auto reveal">
+          <div
+            id="testimonial-container"
+            class="bg-[var(--bg-secondary)] p-8 rounded-lg shadow-lg border border-[var(--border-color)] text-center transition-opacity duration-500 min-h-[150px]"
+          ></div>
+          <button
+            id="prev-testimonial"
+            class="absolute top-1/2 -left-4 md:-left-12 transform -translate-y-1/2 bg-[var(--bg-secondary)] p-2 rounded-full shadow-lg text-[var(--text-primary)]"
+          >
+            &lt;
+          </button>
+          <button
+            id="next-testimonial"
+            class="absolute top-1/2 -right-4 md:-right-12 transform -translate-y-1/2 bg-[var(--bg-secondary)] p-2 rounded-full shadow-lg text-[var(--text-primary)]"
+          >
+            &gt;
+          </button>
+        </div>
+      </section>
+
+      <section id="contact" class="py-20">
+        <div class="text-center">
+          <h2 class="text-4xl font-bold mb-4 reveal gradient-text">
+            Get In Touch
+          </h2>
+          <p
+            class="text-lg text-[var(--text-secondary)] mb-8 reveal"
+            style="transition-delay: 200ms"
+          >
+            Have a project in mind or just want to say hi? I'd love to hear from
+            you.
+          </p>
+        </div>
+        <div
+          class="max-w-xl mx-auto mt-8 reveal"
+          style="transition-delay: 400ms"
+        >
+          <form id="contact-form" class="space-y-6">
+            <div class="flex flex-col sm:flex-row gap-6">
+              <input
+                type="text"
+                name="name"
+                placeholder="Dummy Name"
+                class="form-input w-full p-3 rounded-md"
+                required
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="Dummy Email"
+                class="form-input w-full p-3 rounded-md"
+                required
+              />
+            </div>
+            <textarea
+              name="message"
+              placeholder="Dummy Message"
+              rows="5"
+              class="form-input w-full p-3 rounded-md"
+              required
+            ></textarea>
+            <div class="text-center">
+              <button
+                type="submit"
+                class="magnetic-button bg-[var(--accent-primary)] text-white font-bold py-3 px-8 rounded-full hover:opacity-90 transition duration-300 transform hover:scale-105"
+              >
+                Send Message
+              </button>
+            </div>
+          </form>
+          <p
+            id="form-status"
+            class="text-center mt-4 text-[var(--accent-secondary)]"
+          ></p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-[var(--border-color)] py-8">
+      <div
+        class="container mx-auto px-6 text-center text-[var(--text-secondary)]"
+      >
+        <p>&copy; <span id="copyrights"></span> Murali. All Rights Reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const themeFabContainer = document.getElementById(
+          "theme-fab-container"
+        );
+        const themeFab = document.getElementById("theme-fab");
+        const themeButtons = document.querySelectorAll(".theme-button");
+        const body = document.body;
+        const savedTheme = localStorage.getItem("portfolio-theme") || "default";
+
+        const currentYear = new Date().getFullYear();
+        const copyrights = document.getElementById("copyrights");
+        copyrights.append(currentYear);
+
+        themeFab.addEventListener("click", () => {
+          themeFabContainer.classList.toggle("open");
+        });
+
+        function setTheme(theme) {
+          body.dataset.theme = theme;
+          localStorage.setItem("portfolio-theme", theme);
+          themeButtons.forEach((btn) => {
+            btn.classList.toggle("active", btn.dataset.theme === theme);
+          });
+          if (window.updateParticlesColor) {
+            window.updateParticlesColor();
+          }
+        }
+
+        themeButtons.forEach((button) => {
+          button.addEventListener("click", (e) => {
+            e.stopPropagation();
+            setTheme(button.dataset.theme);
+            themeFabContainer.classList.remove("open");
+          });
+        });
+        setTheme(savedTheme);
+
+        const mobileMenuButton = document.getElementById("mobile-menu-button");
+        const mobileMenu = document.getElementById("mobile-menu");
+        mobileMenuButton.addEventListener("click", () =>
+          mobileMenu.classList.toggle("hidden")
+        );
+
+        const navbar = document.getElementById("navbar");
+        window.addEventListener("scroll", () =>
+          navbar.classList.toggle("navbar-glass", window.scrollY > 50)
+        );
+
+        const typingText = document.getElementById("typing-text");
+        const phrases = [
+          "I build things for the web.",
+          "I create modern front-end experiences.",
+          "Let's build something amazing together.",
+        ];
+        let phraseIndex = 0,
+          letterIndex = 0,
+          isDeleting = false;
+
+        function type() {
+          const phrase = phrases[phraseIndex];
+          if (isDeleting) letterIndex--;
+          else letterIndex++;
+          typingText.textContent = phrase.substring(0, letterIndex);
+
+          let typeSpeed = isDeleting ? 75 : 150;
+
+          if (!isDeleting && letterIndex === phrase.length) {
+            typeSpeed = 2000;
+            isDeleting = true;
+          } else if (isDeleting && letterIndex === 0) {
+            isDeleting = false;
+            phraseIndex = (phraseIndex + 1) % phrases.length;
+          }
+          setTimeout(type, typeSpeed);
+        }
+        setTimeout(type, 1000);
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) entry.target.classList.add("visible");
+            });
+          },
+          { threshold: 0.1 }
+        );
+        document
+          .querySelectorAll(".reveal")
+          .forEach((el) => observer.observe(el));
+
+        const cursorDot = document.querySelector(".cursor-dot");
+        const cursorOutline = document.querySelector(".cursor-outline");
+        window.addEventListener("mousemove", (e) => {
+          cursorDot.style.left = `${e.clientX}px`;
+          cursorDot.style.top = `${e.clientY}px`;
+          cursorOutline.animate(
+            { left: `${e.clientX}px`, top: `${e.clientY}px` },
+            { duration: 500, fill: "forwards" }
+          );
+        });
+
+        document.querySelectorAll(".magnetic-button").forEach((button) => {
+          button.addEventListener("mousemove", (e) => {
+            const { clientX, clientY } = e;
+            const { left, top, width, height } = button.getBoundingClientRect();
+            const x = (clientX - left - width / 2) * 0.4;
+            const y = (clientY - top - height / 2) * 0.4;
+            button.style.transform = `translate(${x}px, ${y}px) scale(1.05)`;
+          });
+          button.addEventListener("mouseleave", () => {
+            button.style.transform = "translate(0, 0) scale(1)";
+          });
+        });
+
+        const testimonials = [
+          {
+            name: "Mark Zuckerberg, Founder of Facebook",
+            text: "The Greatest successes come from having the freedom to fail.",
+          },
+          {
+            name: "Sundar Pichai, CEO of Google",
+            text: "It's the Idea that matters, it didn't matter where you come from or what your background is.",
+          },
+          {
+            name: "Indra Nooyi, Former CEO of PepsiCo",
+            text: "Greatness comes not from the position, but from helping build the future.",
+          },
+          {
+            name: "Persian Proverb",
+            text: "I cried because I had no shoes until I saw a man who had no feet.",
+          },
+        ];
+        let currentTestimonial = 0;
+        const container = document.getElementById("testimonial-container");
+
+        function showTestimonial() {
+          container.style.opacity = 0;
+          setTimeout(() => {
+            const t = testimonials[currentTestimonial];
+            container.innerHTML = `<p class="text-lg italic text-[var(--text-secondary)] mb-4">"${t.text}"</p><p class="font-bold text-[var(--text-primary)]">- ${t.name}</p>`;
+            container.style.opacity = 1;
+          }, 500);
+        }
+        document
+          .getElementById("next-testimonial")
+          .addEventListener("click", () => {
+            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+            showTestimonial();
+          });
+        document
+          .getElementById("prev-testimonial")
+          .addEventListener("click", () => {
+            currentTestimonial =
+              (currentTestimonial - 1 + testimonials.length) %
+              testimonials.length;
+            showTestimonial();
+          });
+        showTestimonial();
+
+        const contactForm = document.getElementById("contact-form");
+        const formStatus = document.getElementById("form-status");
+        contactForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+          formStatus.textContent = "Sending dummy message...";
+          setTimeout(() => {
+            formStatus.textContent = "Thank you for your message!";
+            contactForm.reset();
+            setTimeout(() => (formStatus.textContent = ""), 3000);
+          }, 1000);
+        });
+
+        const canvas = document.getElementById("background-canvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let particlesArray;
+
+        class Particle {
+          constructor(x, y, dirX, dirY, size, color) {
+            this.x = x;
+            this.y = y;
+            this.directionX = dirX;
+            this.directionY = dirY;
+            this.size = size;
+            this.color = color;
+          }
+          draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = this.color;
+            ctx.fill();
+          }
+          update() {
+            const headerHeight = 80;
+            if (this.x + this.size > canvas.width || this.x - this.size < 0) {
+              this.directionX = -this.directionX;
+            }
+            if (
+              this.y + this.size > canvas.height ||
+              this.y - this.size < headerHeight
+            ) {
+              this.directionY = -this.directionY;
+            }
+
+            this.x += this.directionX;
+            this.y += this.directionY;
+            this.draw();
+          }
+        }
+
+        function getParticleColor() {
+          const style = getComputedStyle(body);
+          const color = style.getPropertyValue("--accent-primary").trim();
+          const rgb = color.startsWith("#") ? hexToRgb(color) : parseRgb(color);
+          return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.3)`;
+        }
+        function hexToRgb(hex) {
+          const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+          return result
+            ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16),
+              }
+            : null;
+        }
+        function parseRgb(rgb) {
+          const result = rgb.match(/\d+/g);
+          return result
+            ? { r: result[0], g: result[1], b: result[2] }
+            : { r: 138, g: 43, b: 226 };
+        }
+
+        function init() {
+          particlesArray = [];
+          let numberOfParticles = (canvas.height * canvas.width) / 9000;
+          let color = getParticleColor();
+          const headerHeight = 80;
+          for (let i = 0; i < numberOfParticles; i++) {
+            let size = Math.random() * 2 + 1;
+            let x = Math.random() * (innerWidth - size * 2) + size;
+            let y =
+              Math.random() * (innerHeight - headerHeight - size * 2) +
+              headerHeight +
+              size;
+            let dirX = Math.random() * 0.4 - 0.2;
+            let dirY = Math.random() * 0.4 - 0.2;
+            particlesArray.push(new Particle(x, y, dirX, dirY, size, color));
+          }
+        }
+
+        window.updateParticlesColor = () => {
+          const newColor = getParticleColor();
+          if (particlesArray)
+            particlesArray.forEach((p) => (p.color = newColor));
+        };
+
+        function animate() {
+          requestAnimationFrame(animate);
+          ctx.clearRect(0, 0, innerWidth, innerHeight);
+          if (particlesArray) particlesArray.forEach((p) => p.update());
+        }
+
+        init();
+        animate();
+        window.addEventListener("resize", () => {
+          canvas.width = innerWidth;
+          canvas.height = innerHeight;
+          init();
+        });
+      });
+    </script>
+  </body>
+</html>
